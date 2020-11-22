@@ -1,17 +1,20 @@
-var Engine = Matter.Engine,
-  World = Matter.World,
-  Events = Matter.Events,
-  Bodies = Matter.Bodies;
+const Engine = Matter.Engine;
+const World = Matter.World;
+const  Events = Matter.Events;
+const  Bodies = Matter.Bodies;
 
 var particles = [];
 var plinkos = [];
 var divisions = [];
 var divisionHeight = 200;
+var ground;
 
 function setup() {
-  createCanvas(800, 400);
+  createCanvas(700, 700);
   engine = Engine.create();
   world = engine.world;
+  ground = new Ground(300,695,800,10);
+
   for (var k = 0; k <= width; k = k + 80) {
     divisions.push(new Divisions(k, height - divisionHeight / 2, 10, divisionHeight));
   }
@@ -39,7 +42,9 @@ function setup() {
 function draw() {
   background("black")
   drawSprites();
-  
+  Engine.update(engine);
+   ground.display();
+
    for (var i = 0; i < plinkos.length; i++) {
      
      plinkos[i].display();
@@ -47,7 +52,6 @@ function draw() {
    }
    if(frameCount%60===0){
      particles.push(new Particle(random(100, 700), 10,10));
-     score++;
    }
  
   for (var j = 0; j < particles.length; j++) {
